@@ -5,40 +5,112 @@ public class assignment3 {
 
     public static void main(String[] args) {
 
-        System.out.print("Enter your name: ");
-        String name = scanner.nextLine();
+        final String COLOR_RED_BOLD = "\033[31;1m";
+        final String COLOR_BLUE_BOLD = "\033[34;1m";
+        final String COLOR_GREEN_BOLD = "\033[32;1m";
+        final String COLOR_YELLOW_BOLD = "\033[33;1m";
+        final String RESET = "\033[30;0m";
 
-        boolean isInvalidName = name.strip().length() == 0 || name.strip().equals("-");
+        String name;
+        int age;
+        String subject1;
+        String subject2;
+        String subject3;
+        double marks1;
+        double marks2;
+        double marks3;
 
-        if (isInvalidName) {
-            System.out.println("\u001B[31mInvalid Name\u001B[0m"); // ANSI escape code for red color
-        } else {
-            
-            System.out.print("Enter your age: ");
-            int age = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline character
+        final String ERROR_MSG = String.format("%s%s%s \n", COLOR_RED_BOLD, "%s", RESET);
 
-            validateSubjectAndMarks("Subject1", "SE - ", 1);
-            validateSubjectAndMarks("Subject2", "SE - ", 2);
-            validateSubjectAndMarks("Subject3", "SE - ", 3);
+        app: {
+            System.out.print("Enter your name: ");
+            name = scanner.nextLine().strip();
 
-            System.out.println("All information correctly stored.");
-        }
-    }
-
-    private static void validateSubjectAndMarks(String subjectName, String prefix, int subjectNumber) {
-        System.out.printf("Enter your %s (Format: %sX): ", subjectName, prefix);
-        String subjectInput = scanner.nextLine();
-
-        if (!subjectInput.strip().startsWith(prefix)) {
-            System.out.printf("\u001B[31m%s code is wrong\u001B[0m%n", subjectName);
-        } else {
-            System.out.printf("Enter Your Marks%d: ", subjectNumber);
-            int marks = scanner.nextInt();
-
-            if (marks < 0 || marks > 100) {
-                System.out.printf("\u001B[31mInvalid Marks%d\u001B[0m%n", subjectNumber);
+            if (name.length() == 0) {
+                System.out.printf(ERROR_MSG, "Name can't be empty");
+                break app;
             }
+
+            System.out.print("Enter your age: ");
+            age = scanner.nextInt();
+            scanner.nextLine();
+            // scanner.skip(System.lineSeparator());
+
+            if (age < 10 || age > 18) {
+                System.out.printf(ERROR_MSG, "Invalid age");
+                break app;
+            }
+
+            /* Subject 1 */
+            System.out.print("Enter subject1: ");
+            subject1 = scanner.nextLine().strip();
+
+            if (subject1.isBlank()) {
+                System.out.printf(ERROR_MSG, "Subject 1 can't be empty");
+                break app;
+            } else if (!subject1.startsWith("SE-1")) {
+                System.out.printf(ERROR_MSG, "Invalid subject 1");
+                break app;
+            }
+            System.out.printf("Enter marks for %s", subject1);
+            marks1 = scanner.nextInt();
+            scanner.nextLine();
+
+            if (marks1 > 100 || marks1 < 0) {
+                System.out.printf(ERROR_MSG, "Invalid marks");
+                break app;
+            }
+
+            /* Subject 2 */
+            System.out.print("Enter subject2: ");
+            subject2 = scanner.nextLine().strip();
+
+            if (subject2.isBlank()) {
+                System.out.printf(ERROR_MSG, "Subject 2 can't be empty");
+                break app;
+            } else if (!subject2.startsWith("SE-2")) {
+                System.out.printf(ERROR_MSG, "Invalid subject 2");
+                break app;
+            } else if (subject2.equals(subject1)) {
+                System.out.printf(ERROR_MSG, "Subject already exists");
+                break app;
+            }
+
+            System.out.printf("Enter marks for %s", subject2);
+            marks2 = scanner.nextInt();
+            scanner.nextLine();
+
+            if (marks2 > 100 || marks2 < 0) {
+                System.out.printf(ERROR_MSG, "Invalid marks");
+                break app;
+            }
+
+            /* Subject 3 */
+            System.out.print("Enter subject3: ");
+            subject3 = scanner.nextLine().strip();
+
+            if (subject3.isBlank()) {
+                System.out.printf(ERROR_MSG, "Subject 3 can't be empty");
+                break app;
+            } else if (!subject3.startsWith("SE-3")) {
+                System.out.printf(ERROR_MSG, "Invalid subject 3");
+                break app;
+            } else if (subject3.equals(subject2) || subject3.equals(subject1)) {
+                System.out.printf(ERROR_MSG, "Subject already exists");
+                break app;
+            }
+
+            System.out.printf("Enter marks for %s", subject3);
+            marks3 = scanner.nextInt();
+            scanner.nextLine();
+
+            if (marks3 > 100 || marks3 < 0) {
+                System.out.printf(ERROR_MSG, "Invalid marks");
+                break app;
+            }
+            
         }
     }
+    
 }
+
